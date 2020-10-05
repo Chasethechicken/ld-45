@@ -1,0 +1,125 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://scenes/Player.gd" type="Script" id=1]
+[ext_resource path="res://artwork/player/feet/FootLeft-1.png" type="Texture" id=2]
+[ext_resource path="res://artwork/player/feet/FootLeft-2.png" type="Texture" id=3]
+[ext_resource path="res://artwork/player/feet/FootRight-1.png" type="Texture" id=4]
+[ext_resource path="res://artwork/player/feet/FootRight-2.png" type="Texture" id=5]
+[ext_resource path="res://artwork/player/arms/Arms-1.png" type="Texture" id=6]
+[ext_resource path="res://artwork/player/arms/Arms-2.png" type="Texture" id=7]
+[ext_resource path="res://artwork/player/arms/Arms-3.png" type="Texture" id=8]
+[ext_resource path="res://artwork/player/arms/Arms-4.png" type="Texture" id=9]
+[ext_resource path="res://artwork/player/hat/Hat-1.png" type="Texture" id=10]
+[ext_resource path="res://artwork/player/hat/Hat-2.png" type="Texture" id=11]
+[ext_resource path="res://artwork/player/hat/Hat-3.png" type="Texture" id=12]
+[ext_resource path="res://artwork/player/hat/Hat-4.png" type="Texture" id=13]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 39.5442
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=6]
+radius = 35.9791
+height = 22.5374
+
+[sub_resource type="CapsuleShape2D" id=7]
+radius = 60.2722
+height = 15.0355
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+editor/display_folded = true
+position = Vector2( 1.24277, 7.34914 )
+shape = SubResource( 1 )
+
+[node name="PlayerSprite" type="Node2D" parent="CollisionShape2D"]
+position = Vector2( -1.24277, -7.34914 )
+
+[node name="FootLeft" type="AnimatedSprite" parent="CollisionShape2D/PlayerSprite"]
+frames = SubResource( 2 )
+speed_scale = 2.0
+
+[node name="FootRight" type="AnimatedSprite" parent="CollisionShape2D/PlayerSprite"]
+frames = SubResource( 3 )
+speed_scale = 2.0
+
+[node name="Arms" type="AnimatedSprite" parent="CollisionShape2D/PlayerSprite"]
+frames = SubResource( 4 )
+frame = 2
+speed_scale = 0.7
+playing = true
+
+[node name="Hat" type="AnimatedSprite" parent="CollisionShape2D/PlayerSprite"]
+frames = SubResource( 5 )
+frame = 3
+speed_scale = 2.0
+playing = true
+
+[node name="Area2D" type="Area2D" parent="CollisionShape2D"]
+editor/display_folded = true
+position = Vector2( -1.24277, -7.34914 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/Area2D"]
+position = Vector2( 1.45996, 6.42378 )
+rotation = -1.57079
+shape = SubResource( 6 )
+
+[node name="AttackArea2D" type="Area2D" parent="CollisionShape2D"]
+editor/display_folded = true
+position = Vector2( -1.24277, -7.34914 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/AttackArea2D"]
+position = Vector2( 1.31186, -17.4995 )
+rotation = -1.57079
+shape = SubResource( 7 )
+
+[node name="PickupTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="HurtPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="WalkPlayerLeft" type="AudioStreamPlayer" parent="."]
+volume_db = -25.0
+
+[node name="WalkPlayerRight" type="AudioStreamPlayer" parent="."]
+volume_db = -25.0
+[connection signal="frame_changed" from="CollisionShape2D/PlayerSprite/FootLeft" to="." method="_on_FootLeft_frame_changed"]
+[connection signal="frame_changed" from="CollisionShape2D/PlayerSprite/FootRight" to="." method="_on_FootRight_frame_changed"]
+[connection signal="area_entered" from="CollisionShape2D/Area2D" to="." method="_on_Area2D_area_entered"]

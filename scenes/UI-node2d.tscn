@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/UI.gd" type="Script" id=1]
+[ext_resource path="res://artwork/UI-overlay.png" type="Texture" id=2]
+[ext_resource path="res://artwork/Heart.png" type="Texture" id=3]
+[ext_resource path="res://artwork/Heart-hover.png" type="Texture" id=4]
+[ext_resource path="res://artwork/Sword.png" type="Texture" id=5]
+[ext_resource path="res://artwork/Sword-hover.png" type="Texture" id=6]
+
+[node name="UI" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="UI-overlay" type="Sprite" parent="."]
+position = Vector2( 512, 48 )
+texture = ExtResource( 2 )
+
+[node name="Health" type="TextureButton" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 80.0
+margin_bottom = 80.0
+texture_normal = ExtResource( 3 )
+texture_hover = ExtResource( 4 )
+
+[node name="Strength" type="TextureButton" parent="."]
+margin_left = 160.0
+margin_top = 16.0
+margin_right = 224.0
+margin_bottom = 80.0
+texture_normal = ExtResource( 5 )
+texture_hover = ExtResource( 6 )
+
+[node name="HealthLabel" type="Label" parent="."]
+margin_left = 80.0
+margin_top = 16.0
+margin_right = 144.0
+margin_bottom = 80.0
+text = "0"
+align = 1
+valign = 1
+
+[node name="StrengthLabel" type="Label" parent="."]
+margin_left = 224.0
+margin_top = 16.0
+margin_right = 288.0
+margin_bottom = 80.0
+text = "0"
+align = 1
+valign = 1
+
+[node name="DamageTimer" type="Timer" parent="."]
+wait_time = 0.75
+one_shot = true
+[connection signal="timeout" from="DamageTimer" to="." method="_on_DamageTimer_timeout"]

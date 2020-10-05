@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/items/Item.gd" type="Script" id=1]
+[ext_resource path="res://sounds/eat1.wav" type="AudioStream" id=2]
+[ext_resource path="res://sounds/eat2.wav" type="AudioStream" id=3]
+[ext_resource path="res://artwork/Berry.png" type="Texture" id=4]
+[ext_resource path="res://artwork/Berry-click.png" type="Texture" id=5]
+[ext_resource path="res://artwork/Berry-hover.png" type="Texture" id=6]
+
+[node name="berry" type="Node2D"]
+script = ExtResource( 1 )
+audio = [ ExtResource( 2 ), ExtResource( 3 ) ]
+
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 6 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]
